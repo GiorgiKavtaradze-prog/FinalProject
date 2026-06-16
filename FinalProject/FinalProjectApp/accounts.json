@@ -1,0 +1,46 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "CardDetails": {
+      "CardNumber": "1234-5678-9101-1121",
+      "ExpirationDate": "07/28",
+      "CVC": "000"
+    },
+    "PinCode": "1234",
+    "Balances": {
+      "GEL": 1000,
+      "USD": 250,
+      "EUR": 100
+    },
+    "TransactionHistory": [
+      {
+        "TransactionDate": "2024-01-03T10:15:30Z",
+        "TransactionType": "ChangePin",
+        "Currency": "GEL",
+        "Amount": 0,
+        "BalanceGEL": 1000,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100
+      },
+      {
+        "TransactionDate": "2024-01-02T15:45:00Z",
+        "TransactionType": "Deposit",
+        "Currency": "GEL",
+        "Amount": 100,
+        "BalanceGEL": 1000,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100
+      },
+      {
+        "TransactionDate": "2024-01-01T08:20:45Z",
+        "TransactionType": "Withdraw",
+        "Currency": "GEL",
+        "Amount": -500,
+        "BalanceGEL": 900,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100
+      }
+    ]
+  }
+]
