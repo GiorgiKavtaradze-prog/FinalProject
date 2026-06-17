@@ -38,9 +38,7 @@ public sealed class ConsoleScreen : IConsoleScreen
     public void Header()
     {
         Console.ForegroundColor = ConsoleColor.Cyan;
-        Console.WriteLine("==================================");
-        Console.WriteLine("      MODERN BANK ATM SYSTEM      ");
-        Console.WriteLine("==================================");
+        Console.WriteLine("MODERN BANK ATM SYSTEM");
         Console.ResetColor();
         Console.WriteLine();
     }
