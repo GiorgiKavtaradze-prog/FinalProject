@@ -26,7 +26,7 @@
       {
         "TransactionDate": "2024-01-02T15:45:00Z",
         "TransactionType": "Deposit",
-        "Currency": "GEL",
+        "Currency": "USD",
         "Amount": 100,
         "BalanceGEL": 1000,
         "BalanceUSD": 250,
