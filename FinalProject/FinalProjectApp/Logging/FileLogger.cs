@@ -26,9 +26,9 @@ public sealed class FileLogger : IAppLogger
         {
             File.AppendAllText(_filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{level}] {message}{Environment.NewLine}");
         }
-        catch
+        catch (Exception ex)
         {
-            // Logging must never crash the ATM flow.
+            Console.WriteLine($"Error logging message: {ex.Message}");
         }
     }
 }
