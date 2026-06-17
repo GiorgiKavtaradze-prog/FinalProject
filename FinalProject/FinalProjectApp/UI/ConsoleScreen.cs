@@ -14,9 +14,9 @@ public sealed class ConsoleScreen : IConsoleScreen
         {
             Console.Title = title;
         }
-        catch
+        catch (Exception ex)
         {
-            // Title changes are cosmetic and should never stop the application.
+            Console.WriteLine($"Error setting console title: {ex.Message}");
         }
     }
 
@@ -29,9 +29,9 @@ public sealed class ConsoleScreen : IConsoleScreen
                 Console.Clear();
             }
         }
-        catch
+        catch (Exception ex)
         {
-            // Some hosts do not expose a real console buffer.
+            Console.WriteLine($"Error clearing console screen: {ex.Message}");
         }
     }
 
