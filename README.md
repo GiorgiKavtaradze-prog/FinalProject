@@ -1,5 +1,9 @@
 # ATM Simulator
 
+![C# CommSchool image](public/CommSchool.png)
+
+---
+
 Modern C# console application that simulates an ATM workflow with card validation, PIN verification, transactions, JSON persistence, and file logging.
 
 ## Features
