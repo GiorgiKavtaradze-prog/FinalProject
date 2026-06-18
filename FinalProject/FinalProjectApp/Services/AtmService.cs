@@ -32,11 +32,20 @@ public sealed class AtmService : IAtmService
         var normalizedExpiration = expirationDate.Trim();
         var normalizedCvc = cvc.Trim();
 
-        return _accountStore.Accounts.FirstOrDefault(account =>
-            NormalizeCardNumber(account.CardDetails.CardNumber) == normalizedCard &&
-            account.CardDetails.CVC == normalizedCvc &&
-            account.CardDetails.ExpirationDate == normalizedExpiration &&
-            IsCardDateValid(normalizedExpiration));
+        return _accountStore.Accounts
+            .Where(account => IsCardDateValid(account.CardDetails.ExpirationDate))
+            .Select(account => new
+            {
+                Account = account,
+                CardNumber = NormalizeCardNumber(account.CardDetails.CardNumber),
+                Cvc = account.CardDetails.CVC.Trim(),
+                ExpirationDate = account.CardDetails.ExpirationDate.Trim()
+            })
+            .Where(card => card.CardNumber == normalizedCard)
+            .Where(card => card.Cvc == normalizedCvc)
+            .Where(card => card.ExpirationDate == normalizedExpiration)
+            .Select(card => card.Account)
+            .FirstOrDefault();
     }
 
     public bool VerifyPin(BankAccount account, string pinCode)
@@ -155,7 +164,7 @@ public sealed class AtmService : IAtmService
 
     private static string NormalizeCardNumber(string cardNumber)
     {
-        return new string(cardNumber.Where(char.IsDigit).ToArray());
+        return string.Concat(cardNumber.Where(char.IsDigit));
     }
 
     private static bool IsCardDateValid(string expirationDate)
