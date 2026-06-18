@@ -186,21 +186,19 @@ public sealed class AtmApplication
         Console.WriteLine("Last 5 transactions");
         Console.WriteLine("-------------------");
 
-        var transactions = account.TransactionHistory
+        var transactionLines = account.TransactionHistory
             .OrderByDescending(t => t.TransactionDate)
             .Take(5)
-            .ToList();
+            .Select(t => $"{t.TransactionDate:yyyy-MM-dd HH:mm:ss} | {t.TransactionType,-18} | {t.Currency} {t.Amount:N2}")
+            .ToArray();
 
-        if (transactions.Count == 0)
+        if (transactionLines.Length == 0)
         {
             Console.WriteLine("No transactions yet.");
         }
         else
         {
-            foreach (var transaction in transactions)
-            {
-                Console.WriteLine($"{transaction.TransactionDate:yyyy-MM-dd HH:mm:ss} | {transaction.TransactionType,-18} | {transaction.Currency} {transaction.Amount:N2}");
-            }
+            Console.WriteLine(string.Join(Environment.NewLine, transactionLines));
         }
 
         return false;
@@ -254,7 +252,7 @@ public sealed class AtmApplication
 
     private static string MaskCard(string cardNumber)
     {
-        var digits = new string(cardNumber.Where(char.IsDigit).ToArray());
+        var digits = string.Concat(cardNumber.Where(char.IsDigit));
         return digits.Length >= 4 ? digits[^4..] : "unknown";
     }
 }

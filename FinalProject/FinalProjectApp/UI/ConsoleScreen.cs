@@ -52,9 +52,10 @@ public sealed class ConsoleScreen : IConsoleScreen
 
     public void Balances(AccountBalances balances)
     {
-        Console.WriteLine($"GEL: {balances.GEL:N2}");
-        Console.WriteLine($"USD: {balances.USD:N2}");
-        Console.WriteLine($"EUR: {balances.EUR:N2}");
+        balances.AsCurrencyAmounts()
+            .Select(balance => $"{balance.Currency}: {balance.Amount:N2}")
+            .ToList()
+            .ForEach(Console.WriteLine);
     }
 
     public string ReadRequired(string label)
@@ -88,16 +89,28 @@ public sealed class ConsoleScreen : IConsoleScreen
 
     public Currency ReadCurrency()
     {
+        var currencies = Enum.GetValues<Currency>()
+            .Select((currency, index) => new { Number = index + 1, Currency = currency })
+            .ToArray();
+
         while (true)
         {
-            Console.WriteLine("1. GEL");
-            Console.WriteLine("2. USD");
-            Console.WriteLine("3. EUR");
+            currencies
+                .Select(option => $"{option.Number}. {option.Currency}")
+                .ToList()
+                .ForEach(Console.WriteLine);
+
             var choice = ReadRequired("Currency: ");
 
-            if (choice == "1") return Currency.GEL;
-            if (choice == "2") return Currency.USD;
-            if (choice == "3") return Currency.EUR;
+            var selectedCurrency = currencies
+                .Where(option => option.Number.ToString(CultureInfo.InvariantCulture) == choice)
+                .Select(option => (Currency?)option.Currency)
+                .SingleOrDefault();
+
+            if (selectedCurrency is not null)
+            {
+                return selectedCurrency.Value;
+            }
 
             Message("Invalid currency.", ConsoleColor.Yellow);
         }

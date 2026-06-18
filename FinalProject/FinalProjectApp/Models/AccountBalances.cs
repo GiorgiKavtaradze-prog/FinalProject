@@ -8,6 +8,12 @@ public sealed class AccountBalances
     public decimal USD { get; set; }
     public decimal EUR { get; set; }
 
+    public IEnumerable<(Currency Currency, decimal Amount)> AsCurrencyAmounts()
+    {
+        return Enum.GetValues<Currency>()
+            .Select(currency => (currency, Amount: Get(currency)));
+    }
+
     public decimal Get(Currency currency)
     {
         return currency switch
