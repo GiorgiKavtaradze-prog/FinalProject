@@ -67,7 +67,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Enter card details");
-        Console.WriteLine("------------------");
 
         var cardNumber = _screen.ReadRequired("Card number: ");
         var cvc = _screen.ReadRequired("CVC: ");
@@ -102,7 +101,6 @@ public sealed class AtmApplication
             _screen.Clear();
             _screen.Header();
             Console.WriteLine($"Hello {account.FirstName} {account.LastName}");
-            Console.WriteLine("-------------------------");
             Console.WriteLine("1. Check balance");
             Console.WriteLine("2. Withdraw amount");
             Console.WriteLine("3. Last 5 transactions");
@@ -142,7 +140,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Current balance");
-        Console.WriteLine("---------------");
         _screen.Balances(account.Balances);
 
         _atmService.RecordTransaction(account, TransactionType.BalanceInquiry, Currency.GEL, 0);
@@ -154,7 +151,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Withdraw amount");
-        Console.WriteLine("---------------");
 
         var currency = _screen.ReadCurrency();
         var amount = _screen.ReadPositiveAmount("Amount: ");
@@ -169,7 +165,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Deposit amount");
-        Console.WriteLine("--------------");
 
         var currency = _screen.ReadCurrency();
         var amount = _screen.ReadPositiveAmount("Amount: ");
@@ -184,7 +179,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Last 5 transactions");
-        Console.WriteLine("-------------------");
 
         var transactionLines = account.TransactionHistory
             .OrderByDescending(t => t.TransactionDate)
@@ -209,7 +203,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Change PIN");
-        Console.WriteLine("----------");
 
         var oldPin = _screen.ReadRequired("Current PIN: ");
         var newPin = _screen.ReadRequired("New PIN (4 digits): ");
@@ -225,7 +218,6 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Currency conversion");
-        Console.WriteLine("-------------------");
 
         Console.WriteLine("From:");
         var from = _screen.ReadCurrency();
