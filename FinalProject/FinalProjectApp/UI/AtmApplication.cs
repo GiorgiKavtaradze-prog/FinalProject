@@ -36,21 +36,18 @@ public sealed class AtmApplication
                 _screen.Header();
                 Console.WriteLine("1. Start ATM session");
                 Console.WriteLine("0. Exit");
-
                 var choice = _screen.ReadRequired("Choose action: ");
                 if (choice == "0")
                 {
                     Console.WriteLine("Goodbye.");
                     return;
                 }
-
                 if (choice != "1")
                 {
                     _screen.Message("Invalid menu option.", ConsoleColor.Yellow);
                     _screen.WaitForContinue();
                     continue;
                 }
-
                 StartSession();
             }
             catch (Exception ex)
@@ -67,11 +64,9 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Enter card details");
-
         var cardNumber = _screen.ReadRequired("Card number: ");
         var cvc = _screen.ReadRequired("CVC: ");
         var expirationDate = _screen.ReadRequired("Expiration date (MM/YY): ");
-
         var account = _atmService.FindValidAccount(cardNumber, cvc, expirationDate);
         if (account is null)
         {
@@ -80,7 +75,6 @@ public sealed class AtmApplication
             _screen.WaitForContinue();
             return;
         }
-
         var pin = _screen.ReadRequired("PIN code: ");
         if (!_atmService.VerifyPin(account, pin))
         {
@@ -108,7 +102,6 @@ public sealed class AtmApplication
             Console.WriteLine("5. Change PIN");
             Console.WriteLine("6. Currency conversion");
             Console.WriteLine("0. Finish session");
-
             var choice = _screen.ReadRequired("Choose action: ");
             var shouldEndSession = choice switch
             {
@@ -121,7 +114,6 @@ public sealed class AtmApplication
                 "0" => true,
                 _ => InvalidMenuOption()
             };
-
             if (shouldEndSession)
             {
                 _accountStore.SaveChanges();
@@ -129,7 +121,6 @@ public sealed class AtmApplication
                 _screen.WaitForContinue();
                 return;
             }
-
             _accountStore.SaveChanges();
             _screen.WaitForContinue();
         }
@@ -141,7 +132,6 @@ public sealed class AtmApplication
         _screen.Header();
         Console.WriteLine("Current balance");
         _screen.Balances(account.Balances);
-
         _atmService.RecordTransaction(account, TransactionType.BalanceInquiry, Currency.GEL, 0);
         return false;
     }
@@ -151,11 +141,9 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Withdraw amount");
-
         var currency = _screen.ReadCurrency();
         var amount = _screen.ReadPositiveAmount("Amount: ");
         var result = _atmService.Withdraw(account, currency, amount);
-
         _screen.Message(result.Message, result.Success ? ConsoleColor.Green : ConsoleColor.Red);
         return false;
     }
@@ -165,11 +153,9 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Deposit amount");
-
         var currency = _screen.ReadCurrency();
         var amount = _screen.ReadPositiveAmount("Amount: ");
         var result = _atmService.Deposit(account, currency, amount);
-
         _screen.Message(result.Message, result.Success ? ConsoleColor.Green : ConsoleColor.Red);
         return false;
     }
@@ -179,13 +165,11 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Last 5 transactions");
-
         var transactionLines = account.TransactionHistory
             .OrderByDescending(t => t.TransactionDate)
             .Take(5)
             .Select(t => $"{t.TransactionDate:yyyy-MM-dd HH:mm:ss} | {t.TransactionType,-18} | {t.Currency} {t.Amount:N2}")
             .ToArray();
-
         if (transactionLines.Length == 0)
         {
             Console.WriteLine("No transactions yet.");
@@ -194,7 +178,6 @@ public sealed class AtmApplication
         {
             Console.WriteLine(string.Join(Environment.NewLine, transactionLines));
         }
-
         return false;
     }
 
@@ -203,11 +186,9 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Change PIN");
-
         var oldPin = _screen.ReadRequired("Current PIN: ");
         var newPin = _screen.ReadRequired("New PIN (4 digits): ");
         var confirmPin = _screen.ReadRequired("Confirm new PIN: ");
-
         var result = _atmService.ChangePin(account, oldPin, newPin, confirmPin);
         _screen.Message(result.Message, result.Success ? ConsoleColor.Green : ConsoleColor.Red);
         return false;
@@ -218,18 +199,15 @@ public sealed class AtmApplication
         _screen.Clear();
         _screen.Header();
         Console.WriteLine("Currency conversion");
-
         Console.WriteLine("From:");
         var from = _screen.ReadCurrency();
         Console.WriteLine("To:");
         var to = _screen.ReadCurrency();
-
         if (from == to)
         {
             _screen.Message("Choose two different currencies.", ConsoleColor.Yellow);
             return false;
         }
-
         var amount = _screen.ReadPositiveAmount("Amount: ");
         var result = _atmService.ConvertCurrency(account, from, to, amount);
         _screen.Message(result.Message, result.Success ? ConsoleColor.Green : ConsoleColor.Red);

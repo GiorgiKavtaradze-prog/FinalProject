@@ -8,7 +8,6 @@ public sealed class ConsoleScreen : IConsoleScreen
     public void Initialize(string title)
     {
         Console.OutputEncoding = System.Text.Encoding.UTF8;
-
         try
         {
             Console.Title = title;
@@ -71,12 +70,10 @@ public sealed class ConsoleScreen : IConsoleScreen
     {
         var currencies = Enum.GetValues<Currency>()
             .ToArray();
-
         currencies
             .Select((currency, index) => $"{index + 1}. {currency}")
             .ToList()
             .ForEach(Console.WriteLine);
-
         return InputHelper.ReadEnumChoice("Currency: ", currencies, "Invalid currency.");
     }
 
