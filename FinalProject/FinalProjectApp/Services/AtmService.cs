@@ -31,7 +31,6 @@ public sealed class AtmService : IAtmService
         var normalizedCard = NormalizeCardNumber(cardNumber);
         var normalizedExpiration = expirationDate.Trim();
         var normalizedCvc = cvc.Trim();
-
         return _accountStore.Accounts
             .Where(account => IsCardDateValid(account.CardDetails.ExpirationDate))
             .Select(account => new
@@ -63,7 +62,6 @@ public sealed class AtmService : IAtmService
                 _logger.Warning($"Withdraw rejected. Currency: {currency}, amount: {amount:N2}.");
                 return OperationResult.Fail("Insufficient balance.");
             }
-
             account.Balances.Set(currency, currentBalance - amount);
             RecordTransaction(account, TransactionType.Withdraw, currency, -amount);
             _logger.Info($"Withdraw completed. Currency: {currency}, amount: {amount:N2}.");
@@ -109,7 +107,6 @@ public sealed class AtmService : IAtmService
         {
             return OperationResult.Fail("New PIN must contain exactly 4 digits.");
         }
-
         account.PinCode = newPin;
         RecordTransaction(account, TransactionType.ChangePin, Currency.GEL, 0);
         _logger.Info("PIN changed successfully.");
@@ -124,21 +121,17 @@ public sealed class AtmService : IAtmService
             {
                 return OperationResult.Fail("Conversion rate is not available.");
             }
-
             var sourceBalance = account.Balances.Get(from);
             if (sourceBalance < amount)
             {
                 return OperationResult.Fail($"Insufficient {from} balance.");
             }
-
             var convertedAmount = decimal.Round(amount * rate, 2);
             account.Balances.Set(from, sourceBalance - amount);
             account.Balances.Set(to, account.Balances.Get(to) + convertedAmount);
-
             RecordTransaction(account, TransactionType.CurrencyConversion, from, -amount);
             RecordTransaction(account, TransactionType.CurrencyConversion, to, convertedAmount);
             _logger.Info($"Converted {from} {amount:N2} to {to} {convertedAmount:N2}.");
-
             return OperationResult.Ok($"Converted {from} {amount:N2} to {to} {convertedAmount:N2}.");
         }
         catch (Exception ex)
@@ -173,7 +166,6 @@ public sealed class AtmService : IAtmService
         {
             return false;
         }
-
         var expiresAt = new DateTime(parsed.Year, parsed.Month, DateTime.DaysInMonth(parsed.Year, parsed.Month), 23, 59, 59);
         return expiresAt >= DateTime.Today;
     }

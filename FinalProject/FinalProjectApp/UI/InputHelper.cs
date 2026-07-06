@@ -17,7 +17,6 @@ public static class InputHelper
     public static int[] GetIntArrayInput(int count, string message)
     {
         ArgumentOutOfRangeException.ThrowIfNegative(count);
-
         return ReadUntilValid(
             message,
             input => TryParseIntArray(input, count),
@@ -67,7 +66,6 @@ public static class InputHelper
         where TEnum : struct, Enum
     {
         ArgumentNullException.ThrowIfNull(values);
-
         if (values.Count == 0)
         {
             throw new ArgumentException("At least one value is required.", nameof(values));
@@ -87,15 +85,12 @@ public static class InputHelper
         TextWriter? writer = null)
     {
         ArgumentNullException.ThrowIfNull(parser);
-
         reader ??= Console.In;
         writer ??= Console.Out;
-
         while (true)
         {
             writer.Write(message);
             var input = reader.ReadLine();
-
             if (input is not null)
             {
                 var result = parser(input);
@@ -104,7 +99,6 @@ public static class InputHelper
                     return result.Value;
                 }
             }
-
             writer.WriteLine(errorMessage);
         }
     }
@@ -115,7 +109,6 @@ public static class InputHelper
             .Split(' ', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Select(TryParseInt)
             .ToArray();
-
         return parsedNumbers.Length == expectedCount && parsedNumbers.All(number => number.IsValid)
             ? ParseResult<int[]>.Success(parsedNumbers.Select(number => number.Value).ToArray())
             : ParseResult<int[]>.Failure();
@@ -128,7 +121,6 @@ public static class InputHelper
         {
             return ParseResult<TEnum>.Failure();
         }
-
         return values
             .Select((value, index) => new { Number = index + 1, Value = value })
             .Where(option => option.Number == selectedNumber)
