@@ -11,7 +11,6 @@
 [![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=for-the-badge&logo=docker)]()
 
 > **Modern C# console application** (2026) that simulates an ATM workflow with card validation, PIN verification, transactions, JSON persistence, and file logging. Built with .NET 10.0 and modern development practices.
-> 
 
 ## 📚 Table of Contents
 
@@ -55,7 +54,7 @@
 
 ```
 ╔══════════════════════════════════════════════════════════════╗
-║           🏦 MODERN BANK ATM SYSTEM v2.0                  ║
+║           🏦 MODERN BANK ATM SYSTEM v2.0                     ║
 ╚══════════════════════════════════════════════════════════════╝
 
   Main Menu:
