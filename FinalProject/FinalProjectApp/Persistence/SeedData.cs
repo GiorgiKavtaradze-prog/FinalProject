@@ -1,6 +1,3 @@
-using FinalProjectApp.Enums;
-using FinalProjectApp.Models;
-
 namespace FinalProjectApp.Persistence;
 
 public static class SeedData

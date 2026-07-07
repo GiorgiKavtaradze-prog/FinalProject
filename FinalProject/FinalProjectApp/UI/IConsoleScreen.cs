@@ -1,6 +1,3 @@
-using FinalProjectApp.Enums;
-using FinalProjectApp.Models;
-
 namespace FinalProjectApp.UI;
 
 public interface IConsoleScreen
@@ -14,4 +11,10 @@ public interface IConsoleScreen
     decimal ReadPositiveAmount(string label);
     Currency ReadCurrency();
     void WaitForContinue();
+    
+    Task InitializeAsync(string title, CancellationToken ct = default);
+    Task<string> ReadRequiredAsync(string label, CancellationToken ct = default);
+    Task<decimal> ReadPositiveAmountAsync(string label, CancellationToken ct = default);
+    Task<Currency> ReadCurrencyAsync(CancellationToken ct = default);
+    Task WaitForContinueAsync(CancellationToken ct = default);
 }
