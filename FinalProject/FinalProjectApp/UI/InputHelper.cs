@@ -1,5 +1,3 @@
-using System.Globalization;
-
 namespace FinalProjectApp.UI;
 
 public static class InputHelper
@@ -75,6 +73,37 @@ public static class InputHelper
             message,
             input => TryParseEnumChoice(input, values),
             errorMessage);
+    }
+
+    public static string ReadPin(string message, int length = 4)
+    {
+        return ReadUntilValid(
+            message,
+            input => TryParsePin(input, length),
+            $"Please enter exactly {length} digits.");
+    }
+
+    public static DateOnly ReadDate(string message, string format = "yyyy-MM-dd")
+    {
+        return ReadUntilValid(
+            message,
+            input => TryParseDate(input, format),
+            $"Please enter a valid date in format: {format}");
+    }
+
+    private static ParseResult<DateOnly> TryParseDate(string input, string format)
+    {
+        return DateOnly.TryParseExact(input.Trim(), format, CultureInfo.InvariantCulture, DateTimeStyles.None, out var date)
+            ? ParseResult<DateOnly>.Success(date)
+            : ParseResult<DateOnly>.Failure();
+    }
+
+    private static ParseResult<string> TryParsePin(string input, int length)
+    {
+        var trimmed = input.Trim();
+        return trimmed.Length == length && trimmed.All(char.IsDigit)
+            ? ParseResult<string>.Success(trimmed)
+            : ParseResult<string>.Failure();
     }
 
     private static TValue ReadUntilValid<TValue>(
