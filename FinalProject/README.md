@@ -24,6 +24,7 @@
 - [API Documentation](#-api-documentation)
 - [Configuration](#-configuration)
 - [Logging](#-logging)
+- [Testing](#-testing)
 - [Docker Support](#-docker-support)
 - [CI/CD](#-cicd)
 - [Contributing](#-contributing)
@@ -43,38 +44,43 @@
 - ✅ **JSON Persistence** - All transactions saved to `accounts.json`
 - ✅ **Exception Handling** - Graceful error handling without application crashes
 - ✅ **File Logging** - Runtime logs written to `logs/atm-log.txt`
+- ✅ **Async Support** - Full async/await pattern implementation
+- ✅ **Global Usings** - Modern C# 10+ global using directives
+- ✅ **Unit Tests** - Comprehensive test coverage with xUnit
 - ✅ **Docker Support** - Containerized deployment ready
 - ✅ **GitHub Actions** - Automated CI/CD pipeline
 
 ## 🎮 Demo
 
 ```
-=====================================
-         ATM SIMULATOR v2.0
-=====================================
+╔══════════════════════════════════════════════════════════════╗
+║           🏦 MODERN BANK ATM SYSTEM v2.0                  ║
+╚══════════════════════════════════════════════════════════════╝
 
-Please enter your card number: 1234-5678-9101-1121
-Please enter CVC: 000
-Please enter expiration date (MM/YY): 07/28
-Please enter your PIN: 1234
+  Main Menu:
+  ┌─────────────────────────────┐
+  │ 1. Start ATM session        │
+  │ 0. Exit                     │
+  └─────────────────────────────┘
+  Choose action: 1
 
-✅ Authentication successful!
+  Enter card details
+  ┌─────────────────────────────────────┐
+  Card number: 1234-5678-9101-1121
+  CVC: 000
+  Expiration date (MM/YY): 07/28
+  PIN code: 1234
 
-Main Menu:
-1. Check Balance
-2. Withdraw
-3. Deposit
-4. Transaction History
-5. Change PIN
-6. Currency Converter
-7. Exit
-
-Select an option: 1
-
-Current Balance:
-- GEL: 1000.00
-- USD: 350.00
-- EUR: 300.00
+  Hello, John Doe!
+  ┌─────────────────────────────┐
+  │ 1. Check balance            │
+  │ 2. Withdraw amount          │
+  │ 3. Last 5 transactions      │
+  │ 4. Deposit amount           │
+  │ 5. Change PIN               │
+  │ 6. Currency conversion      │
+  │ 0. Finish session           │
+  └─────────────────────────────┘
 ```
 
 ## 📦 Installation
@@ -112,6 +118,12 @@ dotnet run --project .\FinalProjectApp\FinalProjectApp.csproj
 dotnet publish -c Release -o ./publish
 ```
 
+### Running Tests
+
+```powershell
+dotnet test
+```
+
 ### Docker Deployment
 
 ```bash
@@ -137,39 +149,46 @@ Use the following test credentials to explore the application:
 ```text
 FinalProject/
 ├── FinalProjectApp/
+│   ├── Configuration/
+│   │   └── AtmConfiguration.cs    # Application configuration
 │   ├── Enums/
-│   │   ├── Currency.cs          # Supported currencies (GEL, USD, EUR)
-│   │   └── TransactionType.cs   # Transaction types enum
+│   │   ├── Currency.cs            # Supported currencies (GEL, USD, EUR)
+│   │   └── TransactionType.cs     # Transaction types enum
 │   ├── Models/
-│   │   ├── BankAccount.cs       # Main account model
-│   │   ├── CardDetails.cs       # Card information model
-│   │   ├── AccountBalances.cs   # Multi-currency balance model
-│   │   ├── Transaction.cs       # Transaction record model
-│   │   └── OperationResult.cs   # Operation result wrapper
+│   │   ├── BankAccount.cs         # Main account model
+│   │   ├── CardDetails.cs         # Card information model
+│   │   ├── AccountBalances.cs     # Multi-currency balance model
+│   │   ├── Transaction.cs         # Transaction record model
+│   │   └── OperationResult.cs     # Operation result wrapper
 │   ├── Services/
-│   │   ├── IAtmService.cs       # ATM service interface
-│   │   └── AtmService.cs        # ATM business logic implementation
+│   │   ├── IAtmService.cs         # ATM service interface
+│   │   └── AtmService.cs          # ATM business logic implementation
 │   ├── UI/
-│   │   ├── IConsoleScreen.cs    # Console UI interface
-│   │   ├── ConsoleScreen.cs     # Console UI implementation
-│   │   └── AtmApplication.cs    # Main application orchestrator
+│   │   ├── IConsoleScreen.cs      # Console UI interface
+│   │   ├── ConsoleScreen.cs       # Console UI implementation
+│   │   └── AtmApplication.cs      # Main application orchestrator
 │   ├── Logging/
-│   │   ├── IAppLogger.cs        # Logger interface
-│   │   └── FileLogger.cs        # File-based logger implementation
+│   │   ├── IAppLogger.cs          # Logger interface
+│   │   └── FileLogger.cs          # File-based logger implementation
 │   ├── Persistence/
-│   │   ├── IAccountStore.cs     # Account store interface
-│   │   ├── JsonAccountStore.cs  # JSON file persistence
-│   │   └── SeedData.cs          # Initial data seeding
-│   ├── FinalProjectApp.csproj   # Project configuration
-│   ├── Program.cs               # Application entry point
-│   └── accounts.json            # Account data storage
+│   │   ├── IAccountStore.cs       # Account store interface
+│   │   ├── JsonAccountStore.cs    # JSON file persistence
+│   │   └── SeedData.cs            # Initial data seeding
+│   ├── GlobalUsings.cs            # Global using directives
+│   ├── FinalProjectApp.csproj     # Project configuration
+│   ├── Program.cs                 # Application entry point
+│   └── accounts.json              # Account data storage
+├── FinalProjectApp.Tests/
+│   ├── AccountBalancesTests.cs    # Unit tests for balances
+│   ├── AtmServiceTests.cs         # Unit tests for services
+│   └── FinalProjectApp.Tests.csproj
 ├── .github/
 │   └── workflows/
-│       └── ci.yml               # GitHub Actions CI/CD
-├── Dockerfile                   # Docker configuration
-├── FinalProject.slnx            # Solution file
-├── README.md                    # This file
-└── .gitignore                   # Git ignore rules
+│       └── ci.yml                 # GitHub Actions CI/CD
+├── Dockerfile                     # Docker configuration
+├── FinalProject.slnx              # Solution file
+├── README.md                      # This file
+└── .gitignore                     # Git ignore rules
 ```
 
 ## 🏗️ Architecture
@@ -203,6 +222,7 @@ The project follows **Clean Architecture** principles with clear separation of c
 - **Repository Pattern** - Abstracted data persistence
 - **Strategy Pattern** - Flexible logging and storage implementations
 - **Result Pattern** - Type-safe operation results
+- **Async/Await Pattern** - Modern asynchronous programming
 
 ## 📖 API Documentation
 
@@ -212,50 +232,54 @@ Main service interface for ATM operations:
 
 | Method | Description |
 |--------|-------------|
-| `ValidateCard(CardDetails card)` | Validates card information |
-| `VerifyPin(string cardNumber, string pin)` | Verifies PIN for a card |
-| `CheckBalance(string cardNumber)` | Returns account balances |
-| `Withdraw(string cardNumber, decimal amount, Currency currency)` | Withdraws money |
-| `Deposit(string cardNumber, decimal amount, Currency currency)` | Deposits money |
-| `GetTransactionHistory(string cardNumber)` | Returns last 5 transactions |
-| `ChangePin(string cardNumber, string oldPin, string newPin)` | Changes PIN |
-| `ConvertCurrency(decimal amount, Currency from, Currency to)` | Currency conversion |
+| `FindValidAccount(string cardNumber, string cvc, string expirationDate)` | Validates and returns account |
+| `VerifyPin(BankAccount account, string pin)` | Verifies PIN for a card |
+| `Withdraw(BankAccount account, Currency currency, decimal amount)` | Withdraws money |
+| `Deposit(BankAccount account, Currency currency, decimal amount)` | Deposits money |
+| `ChangePin(BankAccount account, string oldPin, string newPin, string confirmPin)` | Changes PIN |
+| `ConvertCurrency(BankAccount account, Currency from, Currency to, decimal amount)` | Currency conversion |
+| `RecordTransaction(BankAccount account, TransactionType type, Currency currency, decimal amount)` | Records transaction |
 
 ## ⚙️ Configuration
 
-### accounts.json
+### atm-config.json
 
-The application uses a JSON file for data persistence:
+The application supports external configuration:
 
 ```json
 {
-  "accounts": [
-    {
-      "cardNumber": "1234-5678-9101-1121",
-      "cvc": "000",
-      "expirationDate": "07/28",
-      "pin": "1234",
-      "balances": {
-        "gel": 1000.00,
-        "usd": 350.00,
-        "eur": 300.00
-      },
-      "transactions": []
-    }
-  ]
+  "AccountsFilePath": "accounts.json",
+  "LogFilePath": "logs/atm-log.txt",
+  "AppTitle": "Modern Bank ATM Simulator v2.0",
+  "MaxLoginAttempts": 3,
+  "MinWithdrawalAmount": 1.0,
+  "MaxWithdrawalAmount": 10000.0
 }
 ```
 
 ## 📝 Logging
 
-All application events are logged to `logs/atm-log.txt`:
+All application events are logged to `logs/atm-log.txt` with UTC timestamps:
 
 ```
-[2026-07-05 13:00:00] INFO: Application started
-[2026-07-05 13:00:15] INFO: Card validated: 1234-5678-9101-1121
-[2026-07-05 13:00:20] INFO: PIN verified for card: 1234-5678-9101-1121
-[2026-07-05 13:00:30] INFO: Withdrawal: 100 GEL from card 1234-5678-9101-1121
+2026-07-05 13:00:00.000 [INFO] Application started
+2026-07-05 13:00:15.000 [INFO] Successful login for John Doe.
+2026-07-05 13:00:30.000 [INFO] Withdraw completed. Currency: GEL, amount: 100.00.
+2026-07-05 13:00:45.000 [WARN] Failed PIN verification for card ending ****-****-****-1121.
 ```
+
+## 🧪 Testing
+
+The project includes comprehensive unit tests using xUnit:
+
+```powershell
+dotnet test FinalProject/FinalProjectApp.Tests/FinalProjectApp.Tests.csproj
+```
+
+Test coverage includes:
+- Account balance operations
+- ATM service operations (withdraw, deposit, change PIN, currency conversion)
+- Input validation
 
 ## 🐳 Docker Support
 

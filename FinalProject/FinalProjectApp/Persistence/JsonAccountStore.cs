@@ -1,6 +1,5 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using FinalProjectApp.Models;
 
 namespace FinalProjectApp.Persistence;
 
@@ -23,8 +22,15 @@ public sealed class JsonAccountStore : IAccountStore
 
     public void SaveChanges()
     {
-        var json = JsonSerializer.Serialize(Accounts, _jsonOptions);
-        File.WriteAllText(_filePath, json);
+        try
+        {
+            var json = JsonSerializer.Serialize(Accounts, _jsonOptions);
+            File.WriteAllText(_filePath, json);
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error saving accounts: {ex.Message}");
+        }
     }
 
     private List<BankAccount> Load()

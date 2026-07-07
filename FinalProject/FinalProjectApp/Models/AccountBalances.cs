@@ -1,5 +1,3 @@
-using FinalProjectApp.Enums;
-
 namespace FinalProjectApp.Models;
 
 public sealed class AccountBalances
@@ -41,5 +39,20 @@ public sealed class AccountBalances
             default:
                 throw new ArgumentOutOfRangeException(nameof(currency), currency, null);
         }
+    }
+
+    public void Add(Currency currency, decimal value)
+    {
+        Set(currency, Get(currency) + value);
+    }
+
+    public void Subtract(Currency currency, decimal value)
+    {
+        Set(currency, Get(currency) - value);
+    }
+
+    public bool HasSufficientFunds(Currency currency, decimal amount)
+    {
+        return Get(currency) >= amount;
     }
 }

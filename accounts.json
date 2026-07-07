@@ -1,0 +1,78 @@
+[
+  {
+    "FirstName": "John",
+    "LastName": "Doe",
+    "CardDetails": {
+      "CardNumber": "1234-5678-9101-1121",
+      "ExpirationDate": "07/28",
+      "CVC": "000",
+      "IsExpired": false,
+      "IsValid": true
+    },
+    "PinCode": "1234",
+    "Balances": {
+      "GEL": 1000,
+      "USD": 227,
+      "EUR": 100
+    },
+    "TransactionHistory": [
+      {
+        "TransactionDate": "2024-01-03T10:15:30Z",
+        "TransactionType": "ChangePin",
+        "Currency": "GEL",
+        "Amount": 0,
+        "BalanceGEL": 1000,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100,
+        "FormattedDate": "2024-01-03 10:15:30",
+        "FormattedAmount": "\u002B0.00"
+      },
+      {
+        "TransactionDate": "2024-01-02T15:45:00Z",
+        "TransactionType": "Deposit",
+        "Currency": "GEL",
+        "Amount": 100,
+        "BalanceGEL": 1000,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100,
+        "FormattedDate": "2024-01-02 15:45:00",
+        "FormattedAmount": "\u002B100.00"
+      },
+      {
+        "TransactionDate": "2024-01-01T08:20:45Z",
+        "TransactionType": "Withdraw",
+        "Currency": "GEL",
+        "Amount": -500,
+        "BalanceGEL": 900,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100,
+        "FormattedDate": "2024-01-01 08:20:45",
+        "FormattedAmount": "-500.00"
+      },
+      {
+        "TransactionDate": "2026-07-07T19:55:01.4957972Z",
+        "TransactionType": "BalanceInquiry",
+        "Currency": "GEL",
+        "Amount": 0,
+        "BalanceGEL": 1000,
+        "BalanceUSD": 250,
+        "BalanceEUR": 100,
+        "FormattedDate": "2026-07-07 19:55:01",
+        "FormattedAmount": "\u002B0.00"
+      },
+      {
+        "TransactionDate": "2026-07-07T19:55:24.2787562Z",
+        "TransactionType": "Withdraw",
+        "Currency": "USD",
+        "Amount": -23,
+        "BalanceGEL": 1000,
+        "BalanceUSD": 227,
+        "BalanceEUR": 100,
+        "FormattedDate": "2026-07-07 19:55:24",
+        "FormattedAmount": "-23.00"
+      }
+    ],
+    "FullName": "John Doe",
+    "MaskedCardNumber": "****-****-****-1121"
+  }
+]

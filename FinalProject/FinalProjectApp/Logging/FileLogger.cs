@@ -3,6 +3,7 @@ namespace FinalProjectApp.Logging;
 public sealed class FileLogger : IAppLogger
 {
     private readonly string _filePath;
+    private readonly object _lock = new();
 
     public FileLogger(string filePath)
     {
@@ -14,21 +15,23 @@ public sealed class FileLogger : IAppLogger
         }
     }
 
-    public void Info(string message) => Write("INFO", message);
+    public void Info(string message) => WriteLogEntry("INFO", message);
+    public void Warning(string message) => WriteLogEntry("WARN", message);
+    public void Error(string message, Exception exception) => WriteLogEntry("ERROR", $"{message} | Exception: {exception.GetType().Name} - {exception.Message}");
 
-    public void Warning(string message) => Write("WARN", message);
-
-    public void Error(string message, Exception exception) => Write("ERROR", $"{message} {exception}");
-
-    private void Write(string level, string message)
+    private void WriteLogEntry(string level, string message)
     {
+        var logEntry = $"{DateTime.UtcNow:yyyy-MM-dd HH:mm:ss.fff} [{level}] {message}{Environment.NewLine}";
         try
         {
-            File.AppendAllText(_filePath, $"{DateTime.Now:yyyy-MM-dd HH:mm:ss} [{level}] {message}{Environment.NewLine}");
+            lock (_lock)
+            {
+                File.AppendAllText(_filePath, logEntry);
+            }
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error logging message: {ex.Message}");
+            Console.WriteLine($"Logging error: {ex.Message}");
         }
     }
 }
