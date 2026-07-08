@@ -19,20 +19,16 @@ jobs:
         dotnet-version: '10.0.x'
 
     - name: Restore dependencies
-      working-directory: ./FinalProject
-      run: dotnet restore
+      run: dotnet restore FinalProject/FinalProject.slnx
 
     - name: Build
-      working-directory: ./FinalProject
-      run: dotnet build --no-restore
+      run: dotnet build FinalProject/FinalProject.slnx --no-restore
 
     - name: Test
-      working-directory: ./FinalProject
-      run: dotnet test FinalProjectApp.Tests/FinalProjectApp.Tests.csproj --no-build --verbosity normal || true
+      run: dotnet test FinalProject/FinalProjectApp.Tests/FinalProjectApp.Tests.csproj --no-build --verbosity normal || true
 
     - name: Publish
-      working-directory: ./FinalProject
-      run: dotnet publish FinalProjectApp/FinalProjectApp.csproj -c Release -o ../publish
+      run: dotnet publish FinalProject/FinalProjectApp/FinalProjectApp.csproj -c Release -o ./publish
 
   docker:
     runs-on: ubuntu-latest
